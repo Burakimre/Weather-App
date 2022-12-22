@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'openweathermap' => [
+        'url' => env('OPENWEATHERMAP_URL'),
+        'token' => env('OPENWEATHERMAP_TOKEN')
+    ],
 ];

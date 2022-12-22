@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\ApiInterface;
+use App\Services\OpenWeatherMapApiService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->singleton(
+            abstract: ApiInterface::class,
+            concrete: fn () => new OpenWeatherMapApiService(
+                baseUrl: config('services.openweathermap.url'),
+                apiToken: config('services.openweathermap.token')
+            )
+        );
     }
 }
