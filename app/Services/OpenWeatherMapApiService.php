@@ -25,28 +25,28 @@ class OpenWeatherMapApiService implements ApiInterface
 
     public function fetchWeather(float $latitude, float $longitude): WeatherDTO
     {
-        return WeatherDTO::default();
+        // return WeatherDTO::default();
 
-        // $response = $this->get(
-        //     request: $this->buildRequestWithUrl(),
-        //     url: '/weather',
-        //     params: [
-        //         'units' => 'metric',
-        //         'lat' => $latitude,
-        //         'lon' => $longitude
-        //     ]
-        // );
+        $response = $this->get(
+            request: $this->buildRequestWithUrl(),
+            url: '/weather',
+            params: [
+                'units' => 'metric',
+                'lat' => $latitude,
+                'lon' => $longitude
+            ]
+        );
 
-        // if (!$response->successful()) {
-        //     return WeatherDTO::default();
-        // }
+        if (!$response->successful()) {
+            return WeatherDTO::default();
+        }
 
-        // $data = $response->json();
+        $data = $response->json();
 
-        // $data['lat'] = $latitude;
-        // $data['lon'] = $longitude;
+        $data['lat'] = $latitude;
+        $data['lon'] = $longitude;
 
-        // return WeatherDTO::fromOpenWeatherMap($data);
+        return WeatherDTO::fromOpenWeatherMap($data);
     }
 
     public function fetchForecast(float $latitude, float $longitude): Collection
