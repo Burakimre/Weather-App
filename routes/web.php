@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
-use App\Http\Controllers\API\WeatherController as APIWeatherController;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,6 +45,5 @@ Route::middleware('auth')->group( function () {
 });
 
 Route::get('/', [WeatherController::class, 'index']);
-Route::get('/weather', [APIWeatherController::class, 'fetchWeather']);
 
 require __DIR__.'/auth.php';
