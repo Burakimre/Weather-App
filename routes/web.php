@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\API\WeatherController as APIWeatherController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,17 +28,25 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware('auth')->group( function () {
+	Route::post('/tokens/create', function (Request $request) {
+		$token = $request->user()->createToken($request->token_name);
+	 
+		return ['token' => $token->plainTextToken];
+	});
+});
 
 Route::get('/', [WeatherController::class, 'index']);
-Route::get('/weather', [WeatherController::class, 'fetchWeather']);
+Route::get('/weather', [APIWeatherController::class, 'fetchWeather']);
 
 require __DIR__.'/auth.php';
